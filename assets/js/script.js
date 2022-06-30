@@ -1,51 +1,46 @@
-var hoursText = [
-
-    document.querySelector("[id='9-am-text']"),
-
-    document.querySelector("[id='10-am-text']"),
-
-    document.querySelector("[id='11-am-text']"),
-
-    document.querySelector("[id='12-pm-text']"),
-
-    document.querySelector("[id='1-pm-text']"),
-
-    document.querySelector("[id='2-pm-text']"),
-
-    document.querySelector("[id='3-pm-text']"),
-
-    document.querySelector("[id='4-pm-text']"),
-
-    document.querySelector("[id='5-pm-text']"),
-
-]
-
 var currentDayEl = document.querySelector("#currentDay");
 
 currentDayEl.textContent = moment().format('dddd, MMMM Do ');
 
 var occasions = [];
 
+var hourText = document.querySelector(".description").textContent;
 
 
-var saveOccasions = function() {
+
+var saveOccasions = function () {
 
     localStorage.setItem("occasions", JSON.stringify(occasions));
 
 };
 
-var loadOccasions = function(i) {
+var loadOccasions = function (i) {
 
     var savedOccasions = JSON.parse(localStorage.getItem("occasions"));
 
-    console.log(savedOccasions);
-    for(i = 0; i < hoursText.length; i++) {
-        
-        hoursText[i].value = "hello world"
+    $("h3").each(function () {
 
-    }
+        var time = $(this).text();
+
+        var hourText = $(this).siblings(".description").val();
+
+
+        for (var i = 0; i < savedOccasions.length; i++) {
+
+            if (savedOccasions[i].hour == time) {
+
+                hourText = savedOccasions[i].text;
+                console.log(hourText);
+
+                $(this).siblings(".description").append(hourText);
+            
+            }
+        
+        };
     
-}
+    });
+
+};
 
 
 $(".saveBtn").click(function (event) {
@@ -58,27 +53,23 @@ $(".saveBtn").click(function (event) {
 
     console.log(time);
 
-    occasions.push( {
+    occasions.push({
 
         text: hourText,
 
-        hour: time 
+        hour: time
 
     });
 
     console.log(occasions);
 
-    
+
 
     saveOccasions();
 
-    
-
-    
-
-    
-    
 })
+
+
 
 
 
